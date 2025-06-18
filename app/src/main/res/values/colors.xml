@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="login_enabled_color">#00BEEE</color>   <!-- tím hoặc màu bạn thích -->
+    <color name="login_disabled_color">#BDBDBD</color> <!-- xám nhạt -->
+    <color name="green_primary">#4CAF50</color> <!-- Màu xanh lá dịu -->
+    <color name="green_text">#FFFFFF</color> <!-- Màu chữ trắng -->
+
+</resources>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Trạng thái disabled -->
+    <item android:state_enabled="false">
+        <shape android:shape="rectangle">
+            <solid android:color="#736363" /> <!-- Xám nhạt -->
+            <corners android:radius="12dp" />
+        </shape>
+    </item>
+
+    <!-- Trạng thái enabled -->
+    <item android:state_enabled="true">
+        <shape android:shape="rectangle">
+            <solid android:color="#3b5998" /> <!-- Màu tím -->
+            <corners android:radius="12dp" />
+        </shape>
+    </item>
+
+</selector>
