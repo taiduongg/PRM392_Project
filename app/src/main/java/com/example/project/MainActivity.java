@@ -1,10 +1,15 @@
 package com.example.project;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.PopupMenu;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.project.adapters.CategoryAdapter;
@@ -22,40 +27,86 @@ public class MainActivity extends AppCompatActivity {
     private ProductAdapter productAdapter;
     private List<Category> categoryList;
     private List<Product> currentProductList;
-
+    private ImageView imgAvatar;
+    private EditText etSearch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.home_page); // layout đã có NestedScrollView + BottomNav
+        setContentView(R.layout.home_page); // Layout có NestedScrollView + BottomNav
 
-        // Ánh xạ RecyclerView
+        // Ánh xạ view
         rvCategories = findViewById(R.id.rvCategories);
         rvProducts = findViewById(R.id.rvProducts);
+        imgAvatar = findViewById(R.id.imgAvatar);
+        etSearch = findViewById(R.id.etSearch);
 
-        // Tạo dữ liệu danh mục
+        // Load danh sách danh mục và sản phẩm
         categoryList = getCategoryData();
+        currentProductList = new ArrayList<>();
 
-        // Khởi tạo Adapter cho Category
+        // Adapter sản phẩm
+        productAdapter = new ProductAdapter(this, currentProductList);
+        rvProducts.setLayoutManager(new GridLayoutManager(this, 2));
+        rvProducts.setNestedScrollingEnabled(false);
+        rvProducts.setHasFixedSize(true);
+        rvProducts.setAdapter(productAdapter);
+
+        // Adapter danh mục
         categoryAdapter = new CategoryAdapter(this, categoryList, category -> {
-            productAdapter.setProductList(category.getProducts());
+            // Khi chọn danh mục, cập nhật sản phẩm
+            currentProductList.clear();
+            currentProductList.addAll(category.getProducts());
+            productAdapter.setProductList(currentProductList);
         });
 
-        // Thiết lập RecyclerView Category (ngang)
         rvCategories.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         rvCategories.setAdapter(categoryAdapter);
 
-        // Khởi tạo danh sách Product ban đầu
-        currentProductList = new ArrayList<>();
+        // Set sản phẩm mặc định ban đầu là của danh mục đầu tiên (nếu có)
+        if (!categoryList.isEmpty()) {
+            currentProductList.addAll(categoryList.get(0).getProducts());
+            productAdapter.setProductList(currentProductList);
+        }
 
-        // Adapter Product
-        productAdapter = new ProductAdapter(this, currentProductList);
+        // Xử lý avatar click
+        imgAvatar.setOnClickListener(v -> {
+            PopupMenu popupMenu = new PopupMenu(MainActivity.this, imgAvatar);
+            popupMenu.getMenuInflater().inflate(R.menu.menu_profile, popupMenu.getMenu());
+            popupMenu.setOnMenuItemClickListener(item -> {
+                int id = item.getItemId();
+                if (id == R.id.menu_profile) {
+                    return true;
+                } else if (id == R.id.menu_settings) {
+                    return true;
+                } else if (id == R.id.menu_logout) {
+                    return true;
+                }
+                return false;
+            });
+            popupMenu.show();
+        });
 
-        // Thiết lập RecyclerView Product (grid 2 cột)
-        rvProducts.setLayoutManager(new GridLayoutManager(this, 2));
-        rvProducts.setNestedScrollingEnabled(false); // để scroll mượt trong NestedScrollView
-        rvProducts.setHasFixedSize(true);
-        rvProducts.setAdapter(productAdapter);
+        // Tìm kiếm sản phẩm theo tên
+        etSearch.addTextChangedListener(new TextWatcher() {
+            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override public void afterTextChanged(Editable s) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                filterProducts(s.toString());
+            }
+        });
+    }
+
+    private void filterProducts(String query) {
+        List<Product> filteredList = new ArrayList<>();
+        for (Product p : currentProductList) {
+            if (p.getName().toLowerCase().contains(query.toLowerCase())) {
+                filteredList.add(p);
+            }
+        }
+        productAdapter.setProductList(filteredList);
     }
 
     private List<Category> getCategoryData() {
@@ -64,9 +115,7 @@ public class MainActivity extends AppCompatActivity {
         List<Product> robotProducts = new ArrayList<>();
         robotProducts.add(new Product("Robot A", R.drawable.robot, 99.99));
         robotProducts.add(new Product("Robot B", R.drawable.robot, 89.99));
-        robotProducts.add(new Product("Robot B", R.drawable.robot, 89.99));
-        robotProducts.add(new Product("Robot B", R.drawable.robot, 89.99));
-        robotProducts.add(new Product("Robot B", R.drawable.robot, 89.99));
+        robotProducts.add(new Product("Robot C", R.drawable.robot, 79.99));
 
         List<Product> carProducts = new ArrayList<>();
         carProducts.add(new Product("Car A", R.drawable.car, 79.99));
