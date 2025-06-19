@@ -1,58 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
-    android:padding="8dp"
     android:background="#F5F5F5"
-    tools:context=".MainActivity">
+    tools:context=".CartActivity">
 
-    <!-- RecyclerView for Cart Items -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerCart"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:clipToPadding="false"
-        android:paddingBottom="8dp"
-        tools:listitem="@layout/cart_item" />
-    <!-- Footer: Total + Buy Button -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="12dp"
-        android:background="#FFFFFF"
-        android:elevation="6dp"
-        android:gravity="center_vertical">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="8dp"
+        android:paddingBottom="80dp"> <!-- Giúp nội dung tránh bị che bởi bottom nav -->
 
-        <CheckBox
-            android:id="@+id/checkboxSelectAll"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Chọn tất cả"
-            android:layout_marginEnd="8dp" />
-
-        <TextView
-            android:id="@+id/tvTotalPrice"
-            android:layout_width="0dp"
+        <!-- RecyclerView for Cart Items -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerCart"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
             android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:text="Tổng: ₫0"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:textColor="#FF5722" />
+            android:clipToPadding="false"
+            android:paddingBottom="8dp"
+            tools:listitem="@layout/cart_item" />
 
-        <Button
-            android:id="@+id/btnBuySelected"
-            android:layout_width="wrap_content"
+        <!-- Footer: Total + Buy Button -->
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Mua hàng"
-            android:textColor="#FFFFFF"
-            android:backgroundTint="#FF5722"
-            android:paddingHorizontal="16dp"/>
+            android:orientation="horizontal"
+            android:padding="12dp"
+            android:background="#FFFFFF"
+            android:elevation="6dp"
+            android:gravity="center_vertical">
+
+            <CheckBox
+                android:id="@+id/checkboxSelectAll"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Chọn tất cả"
+                android:layout_marginEnd="8dp" />
+
+            <TextView
+                android:id="@+id/tvTotalPrice"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="Tổng: ₫0"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="#FF5722" />
+
+            <Button
+                android:id="@+id/btnBuySelected"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Mua hàng"
+                android:textColor="#FFFFFF"
+                android:backgroundTint="#FF5722"
+                android:paddingHorizontal="16dp"/>
+        </LinearLayout>
     </LinearLayout>
 
-</LinearLayout>
+    <!-- Bottom Navigation -->
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNav"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="@android:color/white"
+        app:menu="@menu/bottom_nav_menu"
+        app:itemIconTint="@color/nav_item_selector"
+        app:itemTextColor="@color/nav_item_selector" />
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

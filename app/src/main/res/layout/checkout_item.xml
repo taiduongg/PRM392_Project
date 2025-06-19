@@ -10,7 +10,7 @@
         android:layout_width="64dp"
         android:layout_height="64dp"
         android:scaleType="centerCrop"
-        android:src="@drawable/sample_gundam" />
+        android:src="@drawable/robot" />
 
     <LinearLayout
         android:layout_width="0dp"

@@ -1,6 +1,9 @@
 package com.example.project;
 
 import android.os.Bundle;
+import android.content.Intent;
+import android.util.Log;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -11,6 +14,9 @@ import com.example.project.adapters.CategoryAdapter;
 import com.example.project.adapters.ProductAdapter;
 import com.example.project.models.Category;
 import com.example.project.models.Product;
+import com.google.android.material.appbar.MaterialToolbar;
+import android.graphics.Color;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,12 +28,50 @@ public class MainActivity extends AppCompatActivity {
     private ProductAdapter productAdapter;
     private List<Category> categoryList;
     private List<Product> currentProductList;
+    private BottomNavigationView bottomNav;
+    private static final String TAG = "MainActivity";
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_page); // layout đã có NestedScrollView + BottomNav
+        Log.d(TAG, "onCreate: MainActivity đã được gọi");
+
+        bottomNav = findViewById(R.id.bottomNav);
+        bottomNav.setSelectedItemId(R.id.navigation_home);
+
+        bottomNav.setOnItemSelectedListener(item -> {
+            int id = item.getItemId();
+            Log.d("BottomNav", "Clicked item id = " + id);
+
+            if (id == R.id.navigation_home) {
+                Log.d(TAG, "Tab Home được chọn");
+                return true;
+            } else if (id == R.id.navigation_cart) {
+                Log.d(TAG, "Tab Cart được chọn");
+                startActivity(new Intent(MainActivity.this, CartActivity.class));
+                finish();
+                return true;
+            } else if (id == R.id.navigation_notification) {
+                startActivity(new Intent(MainActivity.this, NotificationActivity.class));
+                finish();
+                return true;
+            } else if (id == R.id.navigation_profile) {
+                startActivity(new Intent(MainActivity.this, ProfileActivity.class));
+                finish();
+                return true;
+            }
+
+            return false;
+        });
+
+
+        MaterialToolbar toolbar = findViewById(R.id.topAppBar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("ToysStore");
+        toolbar.setTitleTextColor(Color.RED);
 
         // Ánh xạ RecyclerView
         rvCategories = findViewById(R.id.rvCategories);

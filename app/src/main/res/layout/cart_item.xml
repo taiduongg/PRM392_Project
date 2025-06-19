@@ -25,7 +25,7 @@
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/sample_gundam" />
+            android:src="@drawable/robot" />
 
         <LinearLayout
             android:layout_width="0dp"
